@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import Topbar from "../../components/Topbar";
 import Navbar from "../../components/Navbar";
 import CategoriesMenu from "../../components/CategoriesMenu";
@@ -10,7 +12,11 @@ import Featured from "../../components/Featured";
 import Footer from "../../components/Footer";
 import OneSpicalOffer from "../../components/OneSpicalOffer";
 
+
 export default function Home() {
+    useEffect(() => {
+      document.title = "Home Page | Exclusive";
+    }, []);
   return (
     <>
       <Topbar />

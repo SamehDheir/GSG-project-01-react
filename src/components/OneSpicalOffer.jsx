@@ -1,7 +1,7 @@
 import Countdown from "react-countdown";
 import BomBox from "../assets/products/Frame.png";
 export default function OneSpicalOffer() {
-  const targetDate = new Date("2025-10-10T00:00:00");
+  const targetDate = new Date("2025-10-18T00:00:00");
 
   return (
     <div className="flex justify-around gap-0 sm:gap-10 flex-wrap-reverse items-center bg-black text-white pb-7 mx-5 sm:p-5 lg:mx-20 rounded">

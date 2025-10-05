@@ -12,22 +12,22 @@ export default function Navbar() {
 
         <ul className="hidden sm:flex justify-center space-x-6 text-lg">
           <li>
-            <a href="#" className="underline hover:font-bold text-[17px] lg:text-lg">
+            <a href="#" className="underline hover:font-bold text-[15px] lg:text-lg">
               Home
             </a>
           </li>
           <li>
-            <a href="#" className="hover:font-bold text-[17px] lg:text-lg">
+            <a href="#" className="hover:font-bold text-[15px] lg:text-lg">
               Contact
             </a>
           </li>
           <li>
-            <a href="#" className="hover:font-bold text-[17px] lg:text-lg">
+            <a href="#" className="hover:font-bold text-[15px] lg:text-lg">
               About
             </a>
           </li>
           <li>
-            <a href="#" className="hover:font-bold text-[17px] lg:text-lg">
+            <a href="#" className="hover:font-bold text-[15px] lg:text-lg">
               Sign Up
             </a>
           </li>

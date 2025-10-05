@@ -1,7 +1,7 @@
 import Countdown from "react-countdown";
 import Gamepad from "../assets/products/joystik.png";
 import KeyBoard from "../assets/products/keyboard.png";
-import TV from "../assets/products/TV.png";
+import TV from "../assets/products/tv.png";
 import Chair from "../assets/products/chair.png";
 export default function OfferDay() {
   const products = [

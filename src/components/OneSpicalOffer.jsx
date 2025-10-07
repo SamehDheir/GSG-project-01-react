@@ -4,10 +4,10 @@ export default function OneSpicalOffer() {
   const targetDate = new Date("2025-10-18T00:00:00");
 
   return (
-    <div className="flex justify-around gap-0 sm:gap-10 flex-wrap-reverse items-center bg-black text-white pb-7 mx-5 sm:p-5 lg:mx-20 rounded">
-      <div className=" space-y-8">
+    <div className="flex justify-around gap-0 sm:gap-10 flex-wrap-reverse items-center bg-black text-white pb-7 mx-5 p-5 sm:px-20 lg:mx-20 rounded">
+      <div className=" flex-1 space-y-8">
         <h4 className="text-secondary font-bold">Categories</h4>
-        <h2 className="font-bold text-2xl lg:text-[48px] w-90">
+        <h2 className="font-bold text-lg sm:text-2xl lg:text-[40px] w-90">
           Enhance Your Music Experience
         </h2>
         <div className="w-50">
@@ -43,7 +43,7 @@ export default function OneSpicalOffer() {
           Buy Now
         </button>
       </div>
-      <div className="hover:scale-110 transition-transform duration-300 cursor-pointer">
+      <div className="flex-1 hover:scale-110 transition-transform duration-300 cursor-pointer">
         <img
           src={BomBox}
           alt="Bom Box"

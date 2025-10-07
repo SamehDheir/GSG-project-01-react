@@ -49,11 +49,11 @@ export default function SliderImage() {
   }, [products.length]);
 
   return (
-    <div className="relative w-full h-[350px] overflow-hidden rounded-2xl bg-black text-white">
+    <div className="relative w-full h-[200px] sm:h-[350px] overflow-hidden rounded-2xl bg-black  text-white">
       {products.map((product, idx) => (
         <div
           key={product.id}
-          className={`absolute inset-0 flex items-center justify-evenly px-10 transition-opacity duration-1000 ease-in-out ${
+          className={`absolute inset-0 flex items-center justify-evenly px-4 sm:px-10 transition-opacity duration-1000 ease-in-out ${
             activeIndex === idx ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -80,7 +80,7 @@ export default function SliderImage() {
           <button
             key={idx}
             onClick={() => setActiveIndex(idx)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`w-2 sm:w-3 h-2 sm:h-3 rounded-full transition-all duration-300 ${
               activeIndex === idx
                 ? "bg-primary border-2 border-white scale-110"
                 : "bg-gray-500"

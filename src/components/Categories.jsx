@@ -18,7 +18,7 @@ export default function Categories() {
   ];
 
   return (
-    <div className="px-12 my-15">
+    <div className="px-5 sm:px-20 my-15">
       <div className="flex items-center gap-3 mb-4">
         <span className="inline-block  w-[20px] h-[40px] rounded bg-primary"></span>
         <h5 className="text-primary text-sm font-bold text-[16px]">
@@ -68,7 +68,7 @@ export default function Categories() {
           return (
             <div
               key={idx}
-              className="group flex flex-col items-center border p-6 md:w-50 w-full cursor-pointer 
+              className="group flex flex-col flex-1 items-center border p-6 md:w-50 w-full cursor-pointer 
               
                          hover:bg-primary hover:text-white transition-colors duration-300"
             >

@@ -68,92 +68,82 @@ export default function OfferDay() {
   const targetDate = new Date("2025-10-16T00:00:00");
 
   return (
-    <div className="px-5 sm:px-20 my-15">
+    <div className="px-5 sm:px-10 lg:px-20 my-10">
       <div className="flex items-center gap-3 mb-4">
         <span className="inline-block w-[20px] h-[40px] rounded bg-primary"></span>
         <h5 className="text-primary text-sm font-bold text-[16px]">Today’s</h5>
       </div>
 
-      <div className="flex justify-between items-center">
-        <div className="flex flex-wrap items-center justify-between md:w-[455px] lg:w-[600px]">
-          <h2 className="font-semibold md:text-[32px] text-[28px]">
+      <div className="flex flex-row justify-between items-start md:items-center gap-4">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-22">
+          <h2 className="font-semibold text-[28px] md:text-[32px]">
             Flash Sales
           </h2>
-          <div className="w-[60%] sm:w-50">
+          <div className="w-full md:w-60 mt-2 md:mt-0">
             <Countdown
               date={targetDate}
               renderer={({ days, hours, minutes, seconds }) => (
-                <div className="flex gap-4 mt-4">
-                  <div className="flex flex-col items-center">
-                    <span className="text-[10px] sm:text-sm lg:text-base">
-                      Days
-                    </span>
-                    <span className="text-lg sm:text-2xl font-bold">
-                      {String(days).padStart(2, "0")}
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <span className="text-[10px] sm:text-sm lg:text-base">
-                      Hours
-                    </span>
-                    <span className="text-lg sm:text-2xl font-bold">
-                      {String(hours).padStart(2, "0")}
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <span className="text-[10px] sm:text-sm lg:text-base">
-                      Minutes
-                    </span>
-                    <span className="text-lg sm:text-2xl font-bold">
-                      {String(minutes).padStart(2, "0")}
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <span className="text-[10px] sm:text-sm lg:text-base">
-                      Seconds
-                    </span>
-                    <span className="text-lg sm:text-2xl font-bold">
-                      {String(seconds).padStart(2, "0")}
-                    </span>
-                  </div>
+                <div className="flex gap-2 sm:gap-4 justify-start">
+                  {[
+                    { label: "Days", value: days },
+                    { label: "Hours", value: hours },
+                    { label: "Minutes", value: minutes },
+                    { label: "Seconds", value: seconds },
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex flex-col items-center">
+                      <span className="text-[10px] sm:text-sm lg:text-base">
+                        {item.label}
+                      </span>
+                      <span className="text-lg sm:text-2xl font-bold">
+                        {String(item.value).padStart(2, "0")}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               )}
             />
           </div>
         </div>
 
-        {/* Custom Navigation Buttons */}
-        <div className="flex">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
+        <div className="flex gap-1">
+          <button
             onClick={() => swiperRef.current.swiper.slidePrev()}
-            className="size-6 bg-gray-100 rounded-full p-1 mr-1 hover:bg-primary hover:text-white duration-300 cursor-pointer"
+            className="bg-gray-100 p-2 rounded-full hover:bg-primary hover:text-white transition duration-300"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
-            />
-          </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6 p-1"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+              />
+            </svg>
+          </button>
+          <button
             onClick={() => swiperRef.current.swiper.slideNext()}
-            className="size-6 bg-gray-100 rounded-full p-1 hover:bg-primary hover:text-white duration-300 cursor-pointer"
+            className="bg-gray-100 p-2 rounded-full hover:bg-primary hover:text-white transition duration-300"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-            />
-          </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6 p-1"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+              />
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -165,38 +155,45 @@ export default function OfferDay() {
         breakpoints={{
           320: { slidesPerView: 1 },
           640: { slidesPerView: 2 },
-          1024: { slidesPerView: 4 },
+          1024: { slidesPerView: 3 },
+          1366: { slidesPerView: 4 }, 
         }}
+        className="my-6"
       >
         {products.map((product) => (
           <SwiperSlide key={product.id}>
-            <div className="relative my-10 bg-gray-100 p-4 sm:px-10 rounded overflow-hidden group">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="sm:w-full sm:h-56 md:h-60 lg:h-72 object-cover rounded mb-3 transition-transform duration-500 ease-in-out group-hover:scale-110"
-              />
-              <span className="bg-primary text-white text-xs px-3 py-1 rounded absolute top-2 left-2">
-                %40
-              </span>
-              <h2 className="font-bold">{product.name}</h2>
-              <h5 className="text-primary">
+            <div className="bg-gray-100 rounded-lg overflow-hidden p-3 sm:p-4 flex flex-col items-center text-center h-[320px] sm:h-90">
+              <div className="w-full relative">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-200 h-55 sm:h-55 object-contain rounded-lg transition-transform duration-500 ease-in-out hover:scale-105"
+                />
+                <span className="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded">
+                  40%
+                </span>
+              </div>
+              <h3 className="font-semibold mt-3 text-[14px] sm:text-[16px] md:text-[18px]">
+                {product.name}
+              </h3>
+              <p className="text-primary font-bold mt-1 text-[14px] sm:text-[16px]">
                 ${product.price}{" "}
-                <span className="line-through text-gray-600 ml-2">
+                <span className="line-through text-gray-500 ml-2">
                   ${product.discount}
                 </span>
-              </h5>
+              </p>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      <div className="text-center">
-        <button className="text-center bg-primary hover:bg-[#DB3333] cursor-pointer transition-colors duration-300 text-white py-[16px] px-[48px] rounded">
+      <div className="text-center mt-6">
+        <button className="bg-primary text-white hover:bg-[#DB3333] transition-colors duration-300 py-3 px-6 rounded">
           View All Products
         </button>
       </div>
-      <hr className="my-10 text-gray-200 border-1" />
+
+      <hr className="my-10 border-gray-200" />
     </div>
   );
 }

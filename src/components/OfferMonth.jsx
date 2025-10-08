@@ -40,7 +40,7 @@ export default function OfferMonth() {
     },
     {
       id: 4,
-      name: "S-Series Comfort Chair ",
+      name: "S-Series Comfort Chair",
       price: 375,
       discount: 420,
       evaluation: 3,
@@ -49,7 +49,7 @@ export default function OfferMonth() {
     },
     {
       id: 5,
-      name: "S-Series Comfort Chair ",
+      name: "S-Series Comfort Chair",
       price: 375,
       discount: 420,
       evaluation: 3,
@@ -57,19 +57,21 @@ export default function OfferMonth() {
       image: BookSelf,
     },
   ];
+
   return (
-    <div className="px-5 sm:px-20 my-15">
+    <div className="px-5 sm:px-10 lg:px-20 my-15">
       <div className="flex items-center gap-3 mb-4">
-        <span className="inline-block  w-[20px] h-[40px] rounded bg-primary"></span>
+        <span className="inline-block w-[20px] h-[40px] rounded bg-primary"></span>
         <h5 className="text-primary text-sm font-bold text-[16px]">
           This Month
         </h5>
       </div>
-      <div className="flex justify-between items-center">
-        <h2 className="font-semibold text-[24px] md:text-[32px] ">
+
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="font-semibold text-[24px] md:text-[32px]">
           Best Selling Products
         </h2>
-        <button className="bg-primary text-white hover:bg-[#DB3333] cursor-pointer transition-colors duration-300 text-[13px] sm:text-[16px] px-4 sm:px-7 py-2 sm:py-3 rounded ">
+        <button className="bg-primary text-white hover:bg-[#DB3333] transition-colors duration-300 text-[13px] sm:text-[16px] px-4 sm:px-7 py-2 sm:py-3 rounded">
           View All
         </button>
       </div>
@@ -82,29 +84,33 @@ export default function OfferMonth() {
         breakpoints={{
           320: { slidesPerView: 1 },
           640: { slidesPerView: 2 },
-          1024: { slidesPerView: 4 },
+          1024: { slidesPerView: 3 }, 
+          1366: { slidesPerView: 4 },
         }}
+        className="my-6"
       >
         {products.map((product) => (
           <SwiperSlide key={product.id}>
-            <div className="relative my-10 bg-gray-100 p-4 sm:px-10 rounded overflow-hidden group">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="sm:w-full h-100 sm:h-56 md:h-60 lg:h-72 object-cover rounded mb-3 transition-transform duration-500 ease-in-out group-hover:scale-110"
-              />
-
-              <span className="bg-primary text-white text-xs px-3 py-1 rounded absolute top-2 left-2">
-                %40
-              </span>
-
-              <h2 className="font-bold">{product.name}</h2>
-              <h5 className="text-primary">
+            <div className="bg-gray-100 rounded-lg overflow-hidden p-4 sm:p-6 flex flex-col items-center text-center h-[320px] sm:h-90">
+              <div className="w-full  relative">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-200 h-50 sm:h-55 object-contain rounded-lg transition-transform duration-500 ease-in-out hover:scale-105"
+                />
+                <span className="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded">
+                  40%
+                </span>
+              </div>
+              <h3 className="font-semibold mt-3 text-[14px] sm:text-[16px] md:text-[18px]">
+                {product.name}
+              </h3>
+              <p className="text-primary font-bold mt-1 text-[14px] sm:text-[16px]">
                 ${product.price}{" "}
-                <span className="line-through text-gray-600 ml-2">
+                <span className="line-through text-gray-500 ml-2">
                   ${product.discount}
                 </span>
-              </h5>
+              </p>
             </div>
           </SwiperSlide>
         ))}

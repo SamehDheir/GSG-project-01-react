@@ -1,6 +1,6 @@
 export default function Topbar() {
   return (
-    <div className="bg-black text-white p-4 flex items-center justify-evenly">
+    <div className="bg-black text-white p-4 lg:pl-56 flex items-center justify-evenly">
       <div className="flex justify-center">
         <p className="text-sm sm:text-md">
           Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{" "}

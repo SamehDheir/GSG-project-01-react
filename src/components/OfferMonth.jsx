@@ -91,7 +91,7 @@ export default function OfferMonth() {
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-40 sm:h-56 md:h-60 lg:h-72 object-cover rounded mb-3 transition-transform duration-500 ease-in-out group-hover:scale-110"
+                className="sm:w-full h-100 sm:h-56 md:h-60 lg:h-72 object-cover rounded mb-3 transition-transform duration-500 ease-in-out group-hover:scale-110"
               />
 
               <span className="bg-primary text-white text-xs px-3 py-1 rounded absolute top-2 left-2">

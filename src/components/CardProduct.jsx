@@ -139,7 +139,7 @@ export default function CardProduct() {
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-50 h-50 object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+                className="sm:w-50 h-full sm:h-50 object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
               />
 
               <svg

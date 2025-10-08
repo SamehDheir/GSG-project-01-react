@@ -4,37 +4,37 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="px-4 py-4 border border-gray-500 md:px-10">
+    <nav className="px-4 py-4 border border-gray-500 md:px-20">
       <div className="grid grid-cols-2 md:grid-cols-[0.5fr_2fr_1fr] items-center gap-4">
-        <h1 className="text-[30px] font-bold">
+        <h1 className="lg:text-[30px] sm:text-2xl font-bold">
           <a href="#">Exclusive</a>
         </h1>
 
         <ul className="hidden sm:flex justify-center space-x-6 text-lg">
           <li>
-            <a href="#" className="underline hover:font-bold text-[13px] lg:text-lg">
+            <a href="#" className="underline hover:font-bold text-[11px] font-bold lg:font-normal lg:text-lg">
               Home
             </a>
           </li>
           <li>
-            <a href="#" className="hover:font-bold text-[13px] lg:text-lg">
+            <a href="#" className="hover:font-bold text-[11px] font-bold lg:font-normal lg:text-lg">
               Contact
             </a>
           </li>
           <li>
-            <a href="#" className="hover:font-bold text-[13px] lg:text-lg">
+            <a href="#" className="hover:font-bold text-[11px] font-bold lg:font-normal lg:text-lg">
               About
             </a>
           </li>
           <li>
-            <a href="#" className="hover:font-bold text-[13px] lg:text-lg">
+            <a href="#" className="hover:font-bold text-[11px] font-bold lg:font-normal lg:text-lg">
               Sign Up
             </a>
           </li>
         </ul>
 
         <div className="flex justify-end items-center space-x-3">
-          <div className="hidden sm:block relative w-48">
+          <div className="hidden sm:block relative md:w-35 lg:w-66">
             <input
               type="search"
               className="border border-gray-400 bg-gray-100 rounded w-full pr-10 pl-2 py-1 focus:outline-primary"

@@ -21,7 +21,7 @@ export default function Home() {
     <>
       <Topbar />
       <Navbar />
-      <div className="md:flex gap-4 px-4 h-full justify-center md:px-10 py-6">
+      <div className="md:flex gap-4 px-4 h-full justify-center md:px-20 py-6">
         <CategoriesMenu />
         <SliderImage />
       </div>

@@ -59,7 +59,7 @@ export default function SliderImage() {
         >
           <div className="flex flex-col  space-y-4 gap-3 max-w-[50%]">
             <h2 className="text-lg lg:text-2xl font-bold">{product.name}</h2>
-            <p className="text-md lg:text-5xl w-65 font-semibold text-gray-300">
+            <p className="text-md lg:text-4xl w-65 font-semibold text-gray-300">
               {product.desc}
             </p>
             <button className="underline w-20">Shop Now</button>

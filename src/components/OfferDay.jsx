@@ -176,7 +176,7 @@ export default function OfferDay() {
       >
         {products.map((product) => (
           <SwiperSlide key={product.id}>
-            <div className="relative my-10 bg-gray-100 px-4 sm:px-10 rounded overflow-hidden group">
+            <div className="relative my-10 bg-gray-100 p-4 sm:px-10 rounded overflow-hidden group">
               <img
                 src={product.image}
                 alt={product.name}

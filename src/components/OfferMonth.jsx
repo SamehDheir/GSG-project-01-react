@@ -87,21 +87,17 @@ export default function OfferMonth() {
       >
         {products.map((product) => (
           <SwiperSlide key={product.id}>
-            {/* Container ثابت الحجم مع overflow-hidden */}
-            <div className="relative my-10 bg-gray-100 px-4 sm:px-10 rounded overflow-hidden group">
-              {/* الصورة تكبر عند hover */}
+            <div className="relative my-10 bg-gray-100 p-4 sm:px-10 rounded overflow-hidden group">
               <img
                 src={product.image}
                 alt={product.name}
                 className="w-full h-40 sm:h-56 md:h-60 lg:h-72 object-cover rounded mb-3 transition-transform duration-500 ease-in-out group-hover:scale-110"
               />
 
-              {/* عرض الخصم */}
               <span className="bg-primary text-white text-xs px-3 py-1 rounded absolute top-2 left-2">
                 %40
               </span>
 
-              {/* اسم المنتج والسعر */}
               <h2 className="font-bold">{product.name}</h2>
               <h5 className="text-primary">
                 ${product.price}{" "}

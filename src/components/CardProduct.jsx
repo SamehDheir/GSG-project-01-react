@@ -1,87 +1,27 @@
-import Dogfood from '../assets/products/dogfood.jpg'
-import Camera from '../assets/products/camera.png'
-import Laptobp from '../assets/products/laptop.png'
-import Curology from "../assets/products/curology.png";
-import Car from "../assets/products/car.png";
-import Cleats from '../assets/products/cleats.png'
-import GameBad from '../assets/products/gamebad.png'
-import Jacket from '../assets/products/jacket.png'
+import { useQuery } from "@tanstack/react-query";
+import { fetchProducts } from "../api/product";
+import { useState } from "react";
+import StarRating from "./StarRating";
+import { Link } from "react-router-dom";
+import Loading from "./Loading";
+import Error from "./Error";
+import { addToCart } from "../store/cartSlice";
+import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 export default function CardProduct() {
-  const products = [
-    {
-      id: 1,
-      name: "Breed Dry Dog Food",
-      price: 100,
-      evaluation: 3,
-      countEvaluation: 35,
-      image:
-       Dogfood
-    },
-    {
-      id: 2,
-      name: "CANON EOS DSLR Camera",
-      price: 360,
-      evaluation: 4,
-      countEvaluation: 95,
-      image:
-       Camera
-    },
-    {
-      id: 3,
-      name: "ASUS FHD Gaming Laptop",
-      price: 700,
-      evaluation: 5,
-      countEvaluation: 325,
-      image:
-       Laptobp
-    },
-    {
-      id: 4,
-      name: "Curology Product Set ",
-      price: 500,
-      evaluation: 4,
-      countEvaluation: 145,
-      image:
-       Curology
-    },
-    {
-      id: 5,
-      name: "Kids Electric Car",
-      price: 590,
-      evaluation: 5,
-      countEvaluation: 65,
-      image:
-       Car
-    },
-    {
-      id: 6,
-      name: "Jr. Zoom Soccer Cleats",
-      price: 1160,
-      evaluation: 3,
-      countEvaluation: 35,
-      image:
-       Cleats
-    },
-    {
-      id: 7,
-      name: "GP11 Shooter USB Gamepad",
-      price: 660,
-      evaluation: 4,
-      countEvaluation: 55,
-      image:
-       GameBad
-    },
-    {
-      id: 8,
-      name: "Quilted Satin Jacket",
-      price: 660,
-      evaluation: 4,
-      countEvaluation: 55,
-      image:
-       Jacket
-    },
-  ];
+  const [showAll, setShowAll] = useState(false);
+  const dispatch = useDispatch();
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["products"],
+    queryFn: fetchProducts,
+  });
+  if (isLoading) return <Loading />;
+  if (isError) return <Error />;
+
+  const displayedProducts = showAll ? data : data.slice(0, 8);
+
   return (
     <div className="px-5 sm:px-20 my-15">
       <div className="flex items-center gap-3 mb-4">
@@ -129,18 +69,35 @@ export default function CardProduct() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full my-10 text-[16px] text-base/7">
-        {products.map((product) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full my-10 text-[16px] text-base/7">
+        {displayedProducts.map((product) => (
           <div
             key={product.id}
             className="flex flex-col items-start cursor-pointer"
           >
             <div className="relative w-full p-5 bg-gray-100 flex justify-center aspect-[4/3] rounded overflow-hidden group">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="sm:w-50 h-full sm:h-50 object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
-              />
+              <Link key={product.id} to={`/products/${product.id}`}>
+                <img
+                  src={product.thumbnail}
+                  alt={product.title}
+                  className="sm:w-50 h-full object-contain transition-transform duration-500 ease-in-out group-hover:scale-110"
+                />
+              </Link>
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(addToCart(product));
+                  toast.success(`${product.title} added to cart!`);
+                }}
+                className="absolute bottom-0 bg-black text-white p-3 w-full text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+              >
+                Add To Cart
+              </button>
+
+              <span className="absolute top-4 left-3 bg-primary text-white text-xs px-2 py-1 rounded">
+                {product.discountPercentage} %
+              </span>
 
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -148,7 +105,7 @@ export default function CardProduct() {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="size-6 bg-white rounded-full hover:bg-primary hover:text-white duration-300 cursor-pointer p-1 absolute top-3 right-3"
+                className="w-6 h-6 bg-white rounded-full hover:bg-primary hover:text-white duration-300 cursor-pointer p-1 absolute top-3 right-3"
               >
                 <path
                   strokeLinecap="round"
@@ -163,7 +120,7 @@ export default function CardProduct() {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="size-6 bg-white rounded-full hover:bg-primary hover:text-white duration-300 cursor-pointer p-1 absolute top-12 right-3"
+                className="w-6 h-6 bg-white rounded-full hover:bg-primary hover:text-white duration-300 cursor-pointer p-1 absolute top-12 right-3"
               >
                 <path
                   strokeLinecap="round"
@@ -178,36 +135,18 @@ export default function CardProduct() {
               </svg>
             </div>
 
-            <h2 className="font-bold mt-3">{product.name}</h2>
+            <h2 className="font-medium mt-3">{product.title}</h2>
 
             <div className="flex gap-1 items-center mt-1">
               <h5 className="text-primary font-semibold">${product.price}</h5>
-              <div className="flex ml-3">
-                {Array.from({ length: 5 }, (_, i) => (
-                  <svg
-                    key={i}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill={i < product.evaluation ? "currentColor" : "none"}
-                    stroke={i < product.evaluation ? "currentColor" : "gray"}
-                    className={`size-4 ${
-                      i < product.evaluation
-                        ? "text-yellow-500"
-                        : "text-gray-400"
-                    }`}
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                ))}
-              </div>
-              <span className="text-[12px] text-gray-700 ml-2">
-                ({product.countEvaluation})
-              </span>
+              <h5 className="text-gray-600 font-bold line-through text-sm ml-5">
+                {(
+                  product.price /
+                  (1 - product.discountPercentage / 100)
+                ).toFixed(2)}
+              </h5>
             </div>
+            <StarRating rating={product.rating} />
           </div>
         ))}
       </div>
@@ -216,8 +155,9 @@ export default function CardProduct() {
         <button
           className="
         text-center bg-primary text-white  hover:bg-[#DB3333] cursor-pointer transition-colors duration-300 py-[16px] px-[48px] rounded"
+          onClick={() => setShowAll((prev) => !prev)}
         >
-          View All Products
+          {showAll ? "Hide Products" : "View All Products"}
         </button>
       </div>
       <hr className="my-10 text-gray-200 border-1" />

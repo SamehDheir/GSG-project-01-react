@@ -1,146 +1,209 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { currentUser } from "../api/auth";
 
-export default function Navbar() {
+export default function Navbar({
+  profileIcon = true,
+  heartIcon = true,
+  cartIcon = true,
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [sticky, setSticky] = useState(false);
+  const cartCount = useSelector((state) => state.cart.cartCount);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      currentUser(token)
+        .then((data) => setUser(data))
+        .catch((err) => console.log(err));
+    }
+
+    const handleScroll = () => {
+      if (window.scrollY > 40) setSticky(true); 
+      else setSticky(false);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav className="px-4 py-4 border border-gray-500 md:px-20">
-      <div className="grid grid-cols-2 md:grid-cols-[0.5fr_2fr_1fr] items-center gap-4">
-        <h1 className="lg:text-[30px] sm:text-2xl font-bold">
-          <a href="#">Exclusive</a>
-        </h1>
+    <>
 
-        <ul className="hidden sm:flex justify-center space-x-6 text-lg">
-          <li>
-            <a href="#" className="underline hover:font-bold text-[11px] font-bold lg:font-normal lg:text-lg">
-              Home
-            </a>
-          </li>
-          <li>
-            <a href="#" className="hover:font-bold text-[11px] font-bold lg:font-normal lg:text-lg">
-              Contact
-            </a>
-          </li>
-          <li>
-            <a href="#" className="hover:font-bold text-[11px] font-bold lg:font-normal lg:text-lg">
-              About
-            </a>
-          </li>
-          <li>
-            <a href="#" className="hover:font-bold text-[11px] font-bold lg:font-normal lg:text-lg">
-              Sign Up
-            </a>
-          </li>
-        </ul>
+      <nav
+        className={`px-4 py-4 md:px-20 bg-white z-50 transition-all duration-300 ${
+          sticky
+            ? "fixed top-0 left-0 w-full shadow-md"
+            : "sticky top-[40px] border-b border-gray-300"
+        }`}
+      >
+        <div className="max-w-[1440px] mx-auto grid grid-cols-2 md:grid-cols-[0.5fr_2fr_1fr] items-center gap-4">
+          <h1 className="lg:text-[30px] sm:text-2xl font-bold hover:text-primary transition-colors duration-300">
+            <Link to="/">Exclusive</Link>
+          </h1>
 
-        <div className="flex justify-end items-center space-x-3">
-          <div className="hidden sm:block relative md:w-35 lg:w-66">
-            <input
-              type="search"
-              className="border border-gray-400 bg-gray-100 rounded w-full pr-10 pl-2 py-1 focus:outline-primary"
-              placeholder="What are you looking for?"
-            />
-            <svg
-              width="20px"
-              height="20px"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-            >
-              <path
-                d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
-                stroke="#000"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+          <ul className="hidden sm:flex justify-center space-x-6 text-lg">
+            {["Home", "Contact", "About", "Login"].map((item) => (
+              <li key={item}>
+                <Link
+                  to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                  className="text-gray-700 font-medium text-sm lg:text-lg hover:text-primary hover:font-bold transition-colors duration-300"
+                >
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex justify-end items-center space-x-4">
+            <div className="hidden sm:block relative md:w-36 lg:w-64">
+              <input
+                type="search"
+                className="border border-gray-300 bg-gray-100 rounded-full w-full pl-4 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition"
+                placeholder="Search for products..."
               />
-            </svg>
+              <svg
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
+                  stroke="#000"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+
+            {/* Icons */}
+            <div className="flex items-center space-x-3">
+              {heartIcon && (
+                <button className="relative p-1 hover:text-red-500 transition-colors duration-300">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 21C12 21 6 15 4 10.5C2 6 6 2 12 6C18 2 22 6 20 10.5C18 15 12 21 12 21Z"
+                    />
+                  </svg>
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                    3
+                  </span>
+                </button>
+              )}
+
+              {cartIcon && (
+                <Link to="/cart">
+                  <button className="relative p-1 hover:text-primary transition-colors duration-300">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M3 3H5L6 14H19L20 7H6"
+                      />
+                      <circle cx="7.5" cy="20.5" r="1.5" />
+                      <circle cx="17.5" cy="20.5" r="1.5" />
+                    </svg>
+                    {cartCount > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    )}
+                  </button>
+                </Link>
+              )}
+
+              {profileIcon &&
+                (user && user.image ? (
+                  <Link to="/profile">
+                    <img
+                      src={user.image}
+                      alt={user.name}
+                      className="w-8 h-8 rounded-full object-cover hover:ring-2 hover:ring-primary transition"
+                    />
+                  </Link>
+                ) : (
+                  <Link to="/profile">
+                    <button className="relative p-1 hover:text-red-500 transition-colors duration-300">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                        />
+                      </svg>
+                    </button>
+                  </Link>
+                ))}
+            </div>
+
+            {/* Mobile menu toggle */}
+            <button
+              className="sm:hidden p-1"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <svg
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+                fill="none"
+                className="stroke-black hover:stroke-primary transition-colors duration-300"
+              >
+                <path
+                  d="M4 6L20 6M4 12L20 12M4 18L20 18"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           </div>
-
-          <div className="flex items-center space-x-3">
-            <svg
-              width="26"
-              height="26"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="stroke-black hover:stroke-primary transition-colors duration-300 cursor-pointer"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-
-            <svg
-              width="26"
-              height="26"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="stroke-black hover:stroke-primary transition-colors duration-300 cursor-pointer"
-            >
-              <path
-                d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-
-          <button
-            className="sm:hidden cursor-pointer"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <svg
-              width="26"
-              height="26"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="stroke-black hover:stroke-primary transition-colors duration-300 cursor-pointer"
-            >
-              <path
-                d="M4 6L20 6"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M4 12L20 12"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M4 18L20 18"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
         </div>
-      </div>
 
-      {menuOpen && (
-        <ul className="flex flex-col space-y-2 mt-3 sm:hidden text-lg">
-          <li>
-            <a href="#">Home</a>
-          </li>
-          <li>
-            <a href="#">Contact</a>
-          </li>
-          <li>
-            <a href="#">About</a>
-          </li>
-          <li>
-            <a href="#">Sign Up</a>
-          </li>
-        </ul>
-      )}
-    </nav>
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <ul className="flex flex-col space-y-2 mt-3 sm:hidden text-lg bg-white p-4 rounded shadow-md">
+            {["Home", "Contact", "About", "Login"].map((item) => (
+              <li key={item}>
+                <Link
+                  to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                  className="block py-2 px-4 hover:bg-gray-100 rounded transition"
+                >
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </nav>
+    </>
   );
 }

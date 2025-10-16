@@ -1,8 +1,7 @@
 export default function Footer() {
   return (
-    <div className="bg-black text-white py-10 px-5 sm:px-12">
+    <div className="bg-black text-white py-10 px-5 sm:px-12 mt-10 sm:mt-40">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
-        {/* Subscribe Section */}
         <div className="space-y-4 min-w-[180px]">
           <h2 className="text-xl sm:text-2xl font-bold">Exclusive</h2>
           <h4 className="text-lg sm:text-xl font-bold">Subscribe</h4>
@@ -30,7 +29,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Support Section */}
         <div className="space-y-2 min-w-[150px]">
           <h4 className="text-lg sm:text-xl font-bold">Support</h4>
           <p className="text-sm sm:text-base">
@@ -40,7 +38,6 @@ export default function Footer() {
           <p className="text-sm sm:text-base">+88015-88888-9999</p>
         </div>
 
-        {/* Account Section */}
         <div className="space-y-2 min-w-[150px]">
           <h4 className="text-lg sm:text-xl font-bold">Account</h4>
           <p className="text-sm sm:text-base">My Account</p>
@@ -50,7 +47,6 @@ export default function Footer() {
           <p className="text-sm sm:text-base">Shop</p>
         </div>
 
-        {/* Quick Link Section */}
         <div className="space-y-2 min-w-[150px]">
           <h4 className="text-lg sm:text-xl font-bold">Quick Link</h4>
           <p className="text-sm sm:text-base">Privacy Policy</p>
@@ -59,7 +55,6 @@ export default function Footer() {
           <p className="text-sm sm:text-base">Contact</p>
         </div>
 
-        {/* Download App Section */}
         <div className="space-y-4 min-w-[180px]">
           <h4 className="text-lg sm:text-xl font-bold">Download App</h4>
           <p className="text-sm sm:text-base w-full max-w-xs">

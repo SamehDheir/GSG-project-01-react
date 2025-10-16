@@ -5,7 +5,7 @@ import { fetchProductById, fetchRelatedProducts } from "../../api/product";
 import StarRating from "../../components/StarRating";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { addToCart } from "../../store/cartSlice";
 import Navbar from "../../components/Navbar";
@@ -16,7 +16,6 @@ const ProductDetails = () => {
   const [count, setCount] = useState(1);
 
   const dispatch = useDispatch();
-  const cartCount = useSelector((state) => state.cart.cartCount);
 
   const {
     data: product,
@@ -182,6 +181,17 @@ const ProductDetails = () => {
                       alt={product.title}
                       className="sm:w-50 h-full object-contain transition-transform duration-500 ease-in-out group-hover:scale-110"
                     />
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dispatch(addToCart(product));
+                        toast.success(`${product.title} added to cart!`);
+                      }}
+                      className="absolute bottom-0 bg-black text-white p-3 w-full text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+                    >
+                      Add To Cart
+                    </button>
                     {product.discountPercentage > 0 && (
                       <span className="absolute top-4 left-3 bg-primary text-white text-xs px-2 py-1 rounded">
                         {product.discountPercentage} %

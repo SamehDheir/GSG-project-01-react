@@ -3,24 +3,26 @@ import Navbar from "../../components/Navbar";
 import { clearCart } from "../../store/cartSlice";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Loading from "../../components/Loading";
 
 const CheckOut = () => {
-   const navigate = useNavigate();
+  const [checkingAuth, setCheckingAuth] = useState(true);
+  const navigate = useNavigate();
 
-   useEffect(() => {
-     const token = localStorage.getItem("token");
-     if (!token) {
-       toast.error("Please log in to proceed with checkout");
-       navigate("/login");
-     }
-   }, [navigate]);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please log in to proceed with checkout");
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
+
   const cartItems = useSelector((state) => state.cart.items);
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
-  
 
   const dispatch = useDispatch();
 
@@ -32,7 +34,9 @@ const CheckOut = () => {
     dispatch(clearCart());
     toast.success("Order placed successfully!");
   };
-
+  if (checkingAuth) {
+    return <Loading />;
+  }
   return (
     <>
       <Navbar heartIcon={true} cartIcon={true} profileIcon={true} />
@@ -107,7 +111,7 @@ const CheckOut = () => {
                       className="w-12 h-12 object-cover"
                     />
                     <h5>
-                      {item.product.title} 
+                      {item.product.title}
                       <span className="font-bold"> X {item.quantity}</span>
                     </h5>
                   </div>

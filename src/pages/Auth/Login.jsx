@@ -2,14 +2,27 @@ import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Toaster, toast } from "react-hot-toast";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import loginImg from "../../assets/loginPage.jpg";
 import { loginUser } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import Loading from "../../components/Loading";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [checkingAuth, setCheckingAuth] = useState(true);
+ 
+   useEffect(() => {
+     document.title = "Login Page | Exclusive";
+     if (localStorage.getItem("token")) {
+       navigate("/dashboard", { replace: true });
+     }
+     setCheckingAuth(false);
+   }, [navigate]);
+   if (checkingAuth) {
+     return <Loading />;
+   }
   const validationSchema = Yup.object({
     username: Yup.string().required("Required"),
     password: Yup.string().min(6, "Min 6 chars").required("Required"),
@@ -30,14 +43,10 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    document.title = "Login Page | Exclusive";
-  }, []);
-
   return (
     <>
-          <Navbar heartIcon={false} cartIcon={false} profileIcon={false} />
-    
+      <Navbar heartIcon={false} cartIcon={false} profileIcon={false} />
+
       <div className="flex flex-col lg:items-center md:flex-row gap-10 mt-10 px-5 md:px-20">
         <div className="hidden md:block w-1/2">
           <img
@@ -56,7 +65,7 @@ const Login = () => {
           </p>
 
           <Formik
-            initialValues={{ username: "", password: "" }}
+            initialValues={{ username: "emilys", password: "emilyspass" }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >

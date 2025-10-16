@@ -1,4 +1,20 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Loading from "../../components/Loading";
+
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login", { replace: true });
+    }
+    setCheckingAuth(false);
+  }, [navigate]);
+  if (checkingAuth) {
+    return <Loading />;
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-300 via-blue-100 to-white-50">
       <h2 className="text-4xl text-center font-bold drop-shadow-lg">

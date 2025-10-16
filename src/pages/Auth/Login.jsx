@@ -12,17 +12,17 @@ import Loading from "../../components/Loading";
 const Login = () => {
   const navigate = useNavigate();
   const [checkingAuth, setCheckingAuth] = useState(true);
- 
-   useEffect(() => {
-     document.title = "Login Page | Exclusive";
-     if (localStorage.getItem("token")) {
-       navigate("/dashboard", { replace: true });
-     }
-     setCheckingAuth(false);
-   }, [navigate]);
-   if (checkingAuth) {
-     return <Loading />;
-   }
+
+  useEffect(() => {
+    document.title = "Login Page | Exclusive";
+    if (localStorage.getItem("token")) {
+      navigate("/dashboard", { replace: true });
+    }
+    setCheckingAuth(false);
+  }, [navigate]);
+  if (checkingAuth) {
+    return <Loading />;
+  }
   const validationSchema = Yup.object({
     username: Yup.string().required("Required"),
     password: Yup.string().min(6, "Min 6 chars").required("Required"),

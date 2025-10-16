@@ -16,8 +16,8 @@ const CheckOut = () => {
       toast.error("Please log in to proceed with checkout");
       navigate("/login", { replace: true });
     }
+    setCheckingAuth(false); 
   }, [navigate]);
-
   const cartItems = useSelector((state) => state.cart.items);
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.product.price * item.quantity,

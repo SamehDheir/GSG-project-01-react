@@ -10,12 +10,14 @@ import Cart from "./pages/Cart/Cart";
 import { Toaster } from "react-hot-toast";
 import CheckOut from "./pages/CheckOut/CheckOut";
 import NotFound from "./pages/404/NotFound";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <div className="max-w-full mx-auto">
       <BrowserRouter>
         <Toaster position="top-right" reverseOrder={false} />
+        <ScrollToTop/>
         <Topbar />
         <Routes>
           <Route path="/" element={<Home />} />

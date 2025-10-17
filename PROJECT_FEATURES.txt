@@ -1,0 +1,97 @@
+
+Overview
+--------
+This is a small React application that lists products, shows product details, and provides a shopping cart. Cart contents are persisted in localStorage.
+
+Project structure and responsibilities
+------------------------------------
+src/
+  components/
+    Navbar.jsx
+      - Top navigation bar. Shows icons (wishlist, cart) and reads `state.cart.cartCount` from Redux.
+    StarRating.jsx
+      - Renders star ratings, supports half-stars, and generates unique SVG gradient ids per component instance.
+    CardProduct.jsx
+      - Product card used on the homepage / product listing with an "Add To Cart" button.
+    SliderImage.jsx, Categories.jsx, OfferDay.jsx, OfferMonth.jsx, Featured.jsx, OneSpicalOffer.jsx
+      - Visual/UI components for the homepage (slider, category lists, promotional sections).
+    Loading.jsx, Error.jsx
+      - Reusable loading and error UI components.
+
+  pages/
+    Home/
+      - Home.jsx: assembles `Navbar`, `Slider`, categories and product lists.
+    Product/
+      - ProductDetails.jsx: product detail page. Shows images, description and allows quantity selection. Calls
+        `dispatch(addToCart({ product, quantity: count }))` when user clicks Buy Now.
+    Cart/
+      - Cart.jsx: shows cart items, an input to edit item quantity, and buttons to remove/update the cart. The cart state
+        is updated via slice reducers (setCartItems / setItemQuantity) to keep behavior consistent.
+    Auth/
+      - Login.jsx, Register.jsx: authentication pages.
+    404/
+      - NotFound.jsx: simple 404 page.
+
+  store/
+    cartSlice.js
+      - Cart logic:
+        • initialState loads `cartItems` from localStorage.
+        • addToCart accepts either `addToCart(product)` or `addToCart({ product, quantity })`.
+          If the product exists, it increases the quantity; otherwise it adds a new item.
+        • removeFromCart(id) removes an item by id.
+        • decreaseQuantity accepts `id` or `{ id, quantity }` and decreases quantity or removes item if quantity reaches zero.
+        • setItemQuantity sets a specific quantity for an item (useful for cart inputs).
+        • setCartItems replaces the entire items array (useful for restore or bulk update).
+      - The slice keeps `cartCount` (sum of quantities) and persists items to localStorage after each change.
+
+  api/
+    client.js
+      - Central axios client: baseURL = https://dummyjson.com. Adds Authorization header when token exists in localStorage.
+    product.js
+      - fetchProducts(), fetchProductById(id), fetchRelatedProducts(category, excludeId), fetchDiscountProducts(discountPerc).
+    auth.js
+      - Authentication related API calls (currentUser, login, etc.).
+
+assets/
+  - Images and product assets (thumbnails, loginPage.jpg, etc.).
+
+public/
+  - Static assets (icons, public files).
+
+Important behaviors and developer notes
+-------------------------------------
+- Adding to cart from Product Details: `dispatch(addToCart({ product, quantity: count }))` — supports adding multiple items at once.
+- Adding to cart from lists/cards: `dispatch(addToCart(product))` (quantity = 1) — supported as well.
+- The Cart page quantity input uses a bulk update (`setCartItems` or `setItemQuantity`) to avoid loops of repeated `addToCart`/`decreaseQuantity` which previously caused duplicate items.
+- Cart is persisted in localStorage; verify that localStorage gets updated after add/remove/quantity change.
+
+Quick test checklist (How to test)
+---------------------------------
+1) Start dev server:
+   npm run dev
+   Open the URL printed in the terminal (e.g. http://localhost:5173 or 5174).
+
+2) Test flows:
+   - From the home page (product cards): click "Add To Cart" on a product. Verify the Navbar cart badge updates.
+   - From product details: choose quantity > 1 and click "Buy Now". Verify the Cart shows the correct combined quantity if the product existed.
+   - On the Cart page: change the quantity input for an item and confirm subtotal and total update immediately.
+   - Remove an item, then go back to product page and add the same product — verify there are no duplicate leftover entries.
+
+Known issues / possible sources of console errors
+-----------------------------------------------
+- Accessing `localStorage` outside the browser (e.g. server-side scripts or Node test scripts) will throw errors. The app is designed for browser runtime.
+- Some scripts in the `scripts/` folder might use CommonJS (`require`) while the project is ESM — that can trigger ESLint or Node errors. Remove or convert those scripts.
+- Ensure imports are correct and relative (for example, `import { addToCart } from "../store/cartSlice"`).
+
+Suggested improvements
+----------------------
+- Use `setItemQuantity({id, quantity})` from `Cart.jsx` instead of replacing the whole array with `setCartItems(...)` — clearer intent and easier to maintain.
+- Add unit tests for reducers to validate add/remove/decrease logic.
+- Show toasts on remove/update actions for better UX.
+
+Next steps I can do now (pick one):
+- Update `Cart.jsx` to use `setItemQuantity` per-item updates (recommended).
+- Add a README with run/test instructions and screenshots.
+- Help debug a specific console error if you paste the error text from your browser console.
+
+End of file.

@@ -2,61 +2,25 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation, Pagination } from "swiper/modules";
-
-import T_Shirt from "../assets/products/t-shirt.png";
-import Bag from "../assets/products/bag.png";
-import CPU from "../assets/products/cpu.png";
-import BookSelf from "../assets/products/bookself.png";
+import { Pagination } from "swiper/modules";
+import { useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchDiscountProducts } from "../api/product";
+import Loading from "./Loading";
+import Error from "./Error";
+import  {ProductCard}  from "./ProductCard";
 
 export default function OfferMonth() {
-  const products = [
-    {
-      id: 1,
-      name: "HAVIT HV-G92 Gamepad",
-      price: 120,
-      discount: 120,
-      evaluation: 4,
-      countEvaluation: 80,
-      image: T_Shirt,
-    },
-    {
-      id: 2,
-      name: "AK-900 Wired Keyboard",
-      price: 960,
-      discount: 720,
-      evaluation: 5,
-      countEvaluation: 77,
-      image: Bag,
-    },
-    {
-      id: 3,
-      name: "IPS LCD Gaming Monitor",
-      price: 170,
-      discount: 199,
-      evaluation: 4,
-      countEvaluation: 99,
-      image: CPU,
-    },
-    {
-      id: 4,
-      name: "S-Series Comfort Chair",
-      price: 375,
-      discount: 420,
-      evaluation: 3,
-      countEvaluation: 30,
-      image: BookSelf,
-    },
-    {
-      id: 5,
-      name: "S-Series Comfort Chair",
-      price: 375,
-      discount: 420,
-      evaluation: 3,
-      countEvaluation: 30,
-      image: BookSelf,
-    },
-  ];
+  const [showAll, setShowAll] = useState(false);
+  const swiperRef = useRef(null);
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["products"],
+    queryFn: () => fetchDiscountProducts(30),
+  });
+
+  if (isLoading) return <Loading />;
+  if (isError) return <Error />;
 
   return (
     <div className="px-5 sm:px-10 lg:px-20 my-15">
@@ -71,50 +35,41 @@ export default function OfferMonth() {
         <h2 className="font-semibold text-[24px] md:text-[32px]">
           Best Selling Products
         </h2>
-        <button className="bg-primary text-white hover:bg-[#DB3333] transition-colors duration-300 text-[13px] sm:text-[16px] px-4 sm:px-7 py-2 sm:py-3 rounded">
-          View All
+        <button
+          className="bg-primary text-white hover:bg-[#DB3333] transition-colors duration-300 text-[13px] sm:text-[16px] px-4 sm:px-7 py-2 sm:py-3 rounded"
+          onClick={() => setShowAll((prev) => !prev)}
+        >
+          {showAll ? "Hide" : "View All"}
         </button>
       </div>
 
-      <Swiper
-        modules={[Navigation, Pagination]}
-        spaceBetween={20}
-        navigation
-        pagination={{ clickable: true }}
-        breakpoints={{
-          320: { slidesPerView: 1 },
-          640: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 }, 
-          1366: { slidesPerView: 4 },
-        }}
-        className="my-6"
-      >
-        {products.map((product) => (
-          <SwiperSlide key={product.id}>
-            <div className="bg-gray-100 rounded-lg overflow-hidden p-4 sm:p-6 flex flex-col items-center text-center h-[320px] sm:h-90">
-              <div className="w-full  relative">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-200 h-50 sm:h-55 object-contain rounded-lg transition-transform duration-500 ease-in-out hover:scale-105"
-                />
-                <span className="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded">
-                  40%
-                </span>
-              </div>
-              <h3 className="font-semibold mt-3 text-[14px] sm:text-[16px] md:text-[18px]">
-                {product.name}
-              </h3>
-              <p className="text-primary font-bold mt-1 text-[14px] sm:text-[16px]">
-                ${product.price}{" "}
-                <span className="line-through text-gray-500 ml-2">
-                  ${product.discount}
-                </span>
-              </p>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {showAll ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full my-10 text-[16px] text-base/7">
+          {data.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        <Swiper
+          ref={swiperRef}
+          modules={[Pagination]}
+          spaceBetween={20}
+          pagination={{ clickable: true }}
+          breakpoints={{
+            320: { slidesPerView: 1 },
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+            1366: { slidesPerView: 4 },
+          }}
+          className="my-6"
+        >
+          {data.slice(0, 8).map((product) => (
+            <SwiperSlide key={product.id}>
+                <ProductCard product={product} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
     </div>
   );
 }

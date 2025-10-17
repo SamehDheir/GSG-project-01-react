@@ -1,71 +1,31 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 
 import Countdown from "react-countdown";
-import Gamepad from "../assets/products/joystik.png";
-import KeyBoard from "../assets/products/keyboard.png";
-import TV from "../assets/products/tv.png";
-import Chair from "../assets/products/chair.png";
+import { fetchDiscountProducts } from "../api/product";
+import Loading from "./Loading";
+import Error from "./Error";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import StarRating from "./StarRating";
+import { ProductCard } from "./ProductCard";
 
 export default function OfferDay() {
+  const [showAll, setShowAll] = useState(false);
   const swiperRef = useRef(null);
 
-  const products = [
-    {
-      id: 1,
-      name: "HAVIT HV-G92 Gamepad",
-      price: 120,
-      discount: 120,
-      image: Gamepad,
-    },
-    {
-      id: 2,
-      name: "AK-900 Wired Keyboard",
-      price: 960,
-      discount: 720,
-      image: KeyBoard,
-    },
-    {
-      id: 3,
-      name: "IPS LCD Gaming Monitor",
-      price: 170,
-      discount: 199,
-      image: TV,
-    },
-    {
-      id: 4,
-      name: "S-Series Comfort Chair",
-      price: 375,
-      discount: 420,
-      image: Chair,
-    },
-    {
-      id: 5,
-      name: "S-Series Comfort Chair",
-      price: 375,
-      discount: 420,
-      image: Chair,
-    },
-    {
-      id: 6,
-      name: "S-Series Comfort Chair",
-      price: 375,
-      discount: 420,
-      image: Chair,
-    },
-    {
-      id: 7,
-      name: "S-Series Comfort Chair",
-      price: 375,
-      discount: 420,
-      image: Chair,
-    },
-  ];
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["products"],
+    queryFn: () => fetchDiscountProducts(12),
+  });
 
-  const targetDate = new Date("2025-10-16T00:00:00");
+  if (isLoading) return <Loading />;
+  if (isError) return <Error />;
+
+  const targetDate = new Date("2026-10-16T00:00:00");
 
   return (
     <div className="px-5 sm:px-10 lg:px-20 my-10">
@@ -147,49 +107,41 @@ export default function OfferDay() {
         </div>
       </div>
 
-      <Swiper
-        ref={swiperRef}
-        modules={[Pagination]}
-        spaceBetween={20}
-        pagination={{ clickable: true }}
-        breakpoints={{
-          320: { slidesPerView: 1 },
-          640: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
-          1366: { slidesPerView: 4 }, 
-        }}
-        className="my-6"
-      >
-        {products.map((product) => (
-          <SwiperSlide key={product.id}>
-            <div className="bg-gray-100 rounded-lg overflow-hidden p-3 sm:p-4 flex flex-col items-center text-center h-[320px] sm:h-90">
-              <div className="w-full relative">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-200 h-55 sm:h-55 object-contain rounded-lg transition-transform duration-500 ease-in-out hover:scale-105"
-                />
-                <span className="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded">
-                  40%
-                </span>
-              </div>
-              <h3 className="font-semibold mt-3 text-[14px] sm:text-[16px] md:text-[18px]">
-                {product.name}
-              </h3>
-              <p className="text-primary font-bold mt-1 text-[14px] sm:text-[16px]">
-                ${product.price}{" "}
-                <span className="line-through text-gray-500 ml-2">
-                  ${product.discount}
-                </span>
-              </p>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {showAll ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full my-10 text-[16px] text-base/7">
+          {data.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        <Swiper
+          ref={swiperRef}
+          modules={[Pagination]}
+          spaceBetween={20}
+          pagination={{ clickable: true }}
+          breakpoints={{
+            320: { slidesPerView: 1 },
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+            1366: { slidesPerView: 4 },
+          }}
+          className="my-6"
+        >
+          {data.slice(0, 8).map((product) => (
+            <SwiperSlide key={product.id}>
+              <ProductCard product={product} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
 
       <div className="text-center mt-6">
-        <button className="bg-primary text-white hover:bg-[#DB3333] transition-colors duration-300 py-3 px-6 rounded">
-          View All Products
+        <button
+          className="
+        text-center bg-primary text-white  hover:bg-[#DB3333] cursor-pointer transition-colors duration-300 py-[16px] px-[48px] rounded"
+          onClick={() => setShowAll((prev) => !prev)}
+        >
+          {showAll ? "Hide Products" : "View All Products"}
         </button>
       </div>
 

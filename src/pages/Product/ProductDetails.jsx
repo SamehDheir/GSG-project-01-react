@@ -114,7 +114,7 @@ const ProductDetails = () => {
             </div>
 
             <div className="flex flex-wrap items-center gap-4 mt-4">
-              <div className="flex items-center border-gray-400 border rounded overflow-hidden w-38">
+              <div className="flex items-center border-gray-400 border rounded overflow-hidden w-30">
                 <button
                   onClick={() => setCount((prev) => Math.max(prev - 1, 1))}
                   className="flex-1 py-2 text-center border-gray-400 border-r hover:bg-gray-100 cursor-pointer"
@@ -133,7 +133,7 @@ const ProductDetails = () => {
               </div>
 
               <button
-                className="bg-primary text-white px-15 py-2 rounded hover:bg-red-600 cursor-pointer"
+                className="bg-primary text-white px-10 py-2 rounded hover:bg-red-600 cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                   dispatch(addToCart({ product, quantity: count }));

@@ -5,10 +5,10 @@ import SliderImage from "../../components/SliderImage";
 import Categories from "../../components/Categories";
 import OfferDay from "../../components/OfferDay";
 import OfferMonth from "../../components/OfferMonth";
-import CardProduct from "../../components/CardProduct";
 import Featured from "../../components/Featured";
 import OneSpicalOffer from "../../components/OneSpicalOffer";
 import Navbar from "../../components/Navbar";
+import Products from "../../components/Products";
 
 export default function Home() {
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function Home() {
       <Categories />
       <OfferMonth />
       <OneSpicalOffer />
-      <CardProduct />
+      <Products />
       <Featured />
     </>
   );

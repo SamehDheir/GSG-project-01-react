@@ -85,7 +85,7 @@ export default function Navbar({
             {/* Icons */}
             <div className="flex items-center space-x-3">
               {heartIcon && (
-                <button className="relative p-1 hover:text-red-500 transition-colors duration-300">
+                <button className="relative p-1 hover:text-primary cursor-pointer transition-colors duration-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -100,7 +100,7 @@ export default function Navbar({
                       d="M12 21C12 21 6 15 4 10.5C2 6 6 2 12 6C18 2 22 6 20 10.5C18 15 12 21 12 21Z"
                     />
                   </svg>
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
                     3
                   </span>
                 </button>
@@ -108,7 +108,7 @@ export default function Navbar({
 
               {cartIcon && (
                 <Link to="/cart">
-                  <button className="relative p-1 hover:text-primary transition-colors duration-300">
+                  <button className="relative p-1 hover:text-primary transition-colors duration-300 cursor-pointer">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -145,7 +145,7 @@ export default function Navbar({
                   </Link>
                 ) : (
                   <Link to="/profile">
-                    <button className="relative p-1 hover:text-red-500 transition-colors duration-300">
+                    <button className="relative p-1 hover:text-primary cursor-pointer transition-colors duration-300">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

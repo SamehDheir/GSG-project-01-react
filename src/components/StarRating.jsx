@@ -1,7 +1,12 @@
 import { useId } from "react";
 
 const Star = ({ fill = 0, id }) => (
-  <svg className="w-5 h-5" viewBox="0 0 20 20" fill="none" aria-hidden>
+  <svg
+    className="w-4 h-4 sm:w-5 sm:h-5"
+    viewBox="0 0 20 20"
+    fill="none"
+    aria-hidden
+  >
     <defs>
       <linearGradient id={id}>
         <stop offset={`${fill * 100}%`} stopColor="#FBBF24" />
@@ -38,7 +43,7 @@ const StarRating = ({ rating = 0 }) => {
           id={`${uid}-grad-empty-${i}`}
         />
       ))}
-      <span className="ml-2 text-gray-500 text-lg font-semibold">
+      <span className="ml-1 sm:ml-2 text-gray-500 text-sm sm:text-lg font-semibold">
         ({rating})
       </span>
     </div>

@@ -32,9 +32,8 @@ export default function Navbar({
 
   return (
     <>
-
       <nav
-        className={`px-4 py-4 md:px-20 bg-white z-50 transition-all duration-300 ${
+        className={`px-5 py-4 sm:px-10 lg:px-20 mb-2 bg-white z-50 transition-all duration-300 ${
           sticky
             ? "fixed top-0 left-0 w-full shadow-md"
             : "sticky top-[40px] border-b border-gray-300"

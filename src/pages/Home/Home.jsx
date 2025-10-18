@@ -18,7 +18,7 @@ export default function Home() {
     <>
       <Navbar heartIcon={true} cartIcon={true} profileIcon={false} />
 
-      <div className="md:flex gap-4 px-4 h-full justify-center md:px-20 py-6">
+      <div className="md:flex gap-4  h-full justify-center px-4 sm:px-10 lg:px-20">
         <CategoriesMenu />
         <SliderImage />
       </div>

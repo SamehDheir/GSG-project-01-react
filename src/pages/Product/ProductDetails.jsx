@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { addToCart } from "../../store/cartSlice";
 import Navbar from "../../components/Navbar";
+import { ProductCard } from "../../components/ProductCard";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -40,7 +41,15 @@ const ProductDetails = () => {
     }
   }, [product]);
 
-  if (isLoading) return <Loading />;
+  if (isLoading)
+    return (
+      <Loading
+        variant="productDetails"
+        count={4}
+        countMobile={2}
+        countIpad={3}
+      />
+    );
   if (isError || !product) return <Error />;
 
   return (
@@ -168,54 +177,21 @@ const ProductDetails = () => {
             Related Products
           </h5>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-[14px]">
           {isRelatedLoading ? (
-            <Loading message="Loading related products..." />
+            <Loading
+              variant="products"
+              message="Loading related products..."
+              count={4}
+              countMobile={2}
+              countIpad={3}
+            />
           ) : relatedProducts && relatedProducts.length > 0 ? (
-            relatedProducts.map((product) => (
-              <Link key={product.id} to={`/products/${product.id}`}>
-                <div className="flex flex-col items-start cursor-pointer">
-                  <div className="relative w-full p-5 bg-gray-100 flex justify-center aspect-[4/3] rounded overflow-hidden group">
-                    <img
-                      src={product.thumbnail}
-                      alt={product.title}
-                      className="sm:w-50 h-full object-contain transition-transform duration-500 ease-in-out group-hover:scale-110"
-                    />
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        dispatch(addToCart(product));
-                        toast.success(`${product.title} added to cart!`);
-                      }}
-                      className="absolute bottom-0 bg-black text-white p-3 w-full text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
-                    >
-                      Add To Cart
-                    </button>
-                    {product.discountPercentage > 0 && (
-                      <span className="absolute top-4 left-3 bg-primary text-white text-xs px-2 py-1 rounded">
-                        {product.discountPercentage} %
-                      </span>
-                    )}
-                  </div>
-                  <h2 className="font-medium mt-3">{product.title}</h2>
-                  <div className="flex gap-1 items-center mt-1">
-                    <h5 className="text-primary font-semibold">
-                      ${product.price}
-                    </h5>
-                    {product.discountPercentage > 0 && (
-                      <h5 className="text-gray-600 font-bold line-through text-sm ml-5">
-                        {(
-                          product.price /
-                          (1 - product.discountPercentage / 100)
-                        ).toFixed(2)}
-                      </h5>
-                    )}
-                  </div>
-                  <StarRating rating={product.rating} />
-                </div>
-              </Link>
-            ))
+            relatedProducts
+              .slice(0, 4)
+              .map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
           ) : (
             <p className="text-gray-500">No related products found.</p>
           )}

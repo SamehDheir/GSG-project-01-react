@@ -16,7 +16,7 @@ const CheckOut = () => {
       toast.error("Please log in to proceed with checkout");
       navigate("/login", { replace: true });
     }
-    setCheckingAuth(false); 
+    setCheckingAuth(false);
   }, [navigate]);
   const cartItems = useSelector((state) => state.cart.items);
   const totalPrice = cartItems.reduce(
@@ -41,7 +41,7 @@ const CheckOut = () => {
     <>
       <Navbar heartIcon={true} cartIcon={true} profileIcon={true} />
 
-      <div className="px-4 sm:px-6 md:px-20 my-10 max-w-[1440px] mx-auto">
+      <div className="px-4 sm:px-10 lg:px-20 my-10 max-w-[1440px] mx-auto">
         <h4 className="text-gray-500 text-sm mb-4">
           Account / My Account / Product / View Cart /{" "}
           <span className="text-gray-800 font-medium">CheckOut</span>
@@ -82,12 +82,8 @@ const CheckOut = () => {
 
             <div className="flex items-center gap-2">
               <label className="relative flex items-center cursor-pointer">
-                <input type="checkbox" className="peer sr-only" />
-                <div
-                  className="w-5 h-5 border-2 border-gray-400 rounded-sm 
-                    peer-checked:bg-red-500 peer-checked:border-red-500 
-                    transition-colors duration-300"
-                ></div>
+                <input type="checkbox" className="" />
+
                 <span className="ml-2 text-gray-700 select-none">
                   Save this information for faster check-out next time
                 </span>

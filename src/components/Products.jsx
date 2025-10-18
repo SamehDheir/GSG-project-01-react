@@ -12,11 +12,14 @@ const Products = () => {
     queryKey: ["products"],
     queryFn: fetchProducts,
   });
-  if (isLoading) return <Loading />;
+  if (isLoading)
+    return (
+      <Loading variant="products" count={8} countMobile={2} countIpad={3} />
+    );
   if (isError) return <Error />;
 
   return (
-    <div className="px-5 sm:px-20 my-15">
+    <div className="px-5 sm:px-10 lg:px-20 my-15">
       <div className="flex items-center gap-3 mb-4">
         <span className="inline-block  w-[20px] h-[40px] rounded bg-primary"></span>
         <h5 className="text-primary text-sm font-bold text-[16px]">
@@ -61,7 +64,7 @@ const Products = () => {
           </svg>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full my-10 text-[16px] text-base/7">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 w-full my-10 text-[14px] text-base/7">
         {(showAll ? data : data.slice(0, 8)).map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

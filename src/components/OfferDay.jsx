@@ -3,14 +3,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
-
 import Countdown from "react-countdown";
 import { fetchDiscountProducts } from "../api/product";
 import Loading from "./Loading";
 import Error from "./Error";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
-import StarRating from "./StarRating";
 import { ProductCard } from "./ProductCard";
 
 export default function OfferDay() {
@@ -19,10 +16,11 @@ export default function OfferDay() {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["products"],
-    queryFn: () => fetchDiscountProducts(12),
+    queryFn: () => fetchDiscountProducts(10),
   });
 
-  if (isLoading) return <Loading />;
+  if (isLoading)
+    return <Loading variant="offer" count={4} countMobile={2} countIpad={3} />;
   if (isError) return <Error />;
 
   const targetDate = new Date("2026-10-16T00:00:00");
@@ -108,7 +106,7 @@ export default function OfferDay() {
       </div>
 
       {showAll ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full my-10 text-[16px] text-base/7">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full my-10 text-[14px] text-base/7">
           {data.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -120,8 +118,8 @@ export default function OfferDay() {
           spaceBetween={20}
           pagination={{ clickable: true }}
           breakpoints={{
-            320: { slidesPerView: 1 },
-            640: { slidesPerView: 2 },
+            320: { slidesPerView: 2 },
+            640: { slidesPerView: 3 },
             1024: { slidesPerView: 3 },
             1366: { slidesPerView: 4 },
           }}
